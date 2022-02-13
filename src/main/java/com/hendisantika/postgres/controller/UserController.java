@@ -45,6 +45,16 @@ public class UserController {
         return userRepository.findById(userId).orElse(null);
     }
 
+    @PostMapping("/login")
+    public UserDto login(@RequestBody UserDto userDto) {
+        User user = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
+        System.out.println(user);
+        if (user != null) {
+            return new UserDto(user);
+        }
+        return null;
+    }
+
     @Transactional
     @GetMapping("/agents")
     public List<UserDto> getAllAgents() {
